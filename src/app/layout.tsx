@@ -1,9 +1,11 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
-import NavBar from "@/components/NavBar";
 import { ThemeProvider } from "@/components/theme-provider";
 import { ClerkProvider } from "@clerk/nextjs";
+
+import { currentUser } from "@clerk/nextjs/server";
+import { redirect } from "next/navigation";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -17,10 +19,10 @@ const geistMono = Geist_Mono({
 
 export const metadata: Metadata = {
   title: "TechFit",
-  description: "An E-Commerce Store",
+  description: "An Electronics E-Commerce Store",
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
@@ -37,7 +39,6 @@ export default function RootLayout({
             attribute="class"
             defaultTheme="system"
           >
-            <NavBar />
             {children}
           </ThemeProvider>
         </body>

@@ -15,8 +15,12 @@ import {
 import Link from "next/link";
 
 import { SignInButton, UserButton } from "@clerk/nextjs";
+import { redirect } from "next/navigation";
+
 const DesktopNavbar = async () => {
   const user = await currentUser();
+  const role = user?.publicMetadata?.role;
+
   return (
     <>
       <div className="hidden md:flex items-center space-x-3">
@@ -62,8 +66,8 @@ const DesktopNavbar = async () => {
             <Button variant="ghost" className="flex items-center gap-2" asChild>
               <Link
                 href={`/profile/${
-                  user.username ??
-                  user.emailAddresses[0].emailAddress.split("@")[0]
+                  user?.username ??
+                  user?.emailAddresses[0].emailAddress.split("@")[0]
                 }`}
               >
                 <UserIcon className="w-4 h-4" />
@@ -74,7 +78,7 @@ const DesktopNavbar = async () => {
           </>
         ) : (
           <>
-            <SignInButton mode="modal">
+            <SignInButton forceRedirectUrl={"/redirect"} mode="modal">
               <Button variant={"default"}>Sign In</Button>
             </SignInButton>
           </>
